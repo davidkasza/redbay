@@ -1,0 +1,5 @@
+INSERT INTO users(username, name, email, password) VALUES('Sanyi', "Sanyi", 'sanyi213@citromail.com', '$10$Ud.JcelqAxg/6sgKFMe8OeeC8p/kpkAifuZ.pd6WL9uK7qSCmF8iW');
+INSERT INTO users(username, name, email, password) VALUES('John Wick', 'John Wick', 'john_wick@wick.com', '$10$Ud.JcelqAxg/6sgKFMe8OeeC8p/kpkAifuZ.pd6WL9uK7qSCmF8iW');
+INSERT INTO users(username, name, email, password) VALUES('Banana', 'John Wick', 'banana99@gmail.com', '$10$Ud.JcelqAxg/6sgKFMe8OeeC8p/kpkAifuZ.pd6WL9uK7qSCmF8iW');
+INSERT INTO users(username, name, email, password) VALUES('Orange','John Wick', 'orange434@gmail.com', '$10$Ud.JcelqAxg/6sgKFMe8OeeC8p/kpkAifuZ.pd6WL9uK7qSCmF8iW');
+INSERT INTO users(username, name, email, password) VALUES('Balloon','John Wick', 'balloon63@outlook.com', '$10$Ud.JcelqAxg/6sgKFMe8OeeC8p/kpkAifuZ.pd6WL9uK7qSCmF8iW');
