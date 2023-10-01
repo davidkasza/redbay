@@ -22,7 +22,7 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "user", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<SellableItem> sellableItems;
 

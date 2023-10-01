@@ -6,6 +6,7 @@ import com.example.dtos.SellableItemListDTO;
 import com.example.entities.SellableItem;
 import com.example.entities.User;
 import com.example.repositories.SellableItemRepository;
+import com.example.repositories.UserRepository;
 import com.example.security.RedbayUserDetailsService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,8 @@ public class SellableItemServiceImplTest {
 
     SellableItemRepository sellableItemRepository;
 
+    UserRepository userRepository;
+
     BeanFactory beanFactory;
 
     @Autowired
@@ -46,7 +49,8 @@ public class SellableItemServiceImplTest {
         userService = Mockito.mock(UserService.class);
         globalUpdateService = Mockito.mock(GlobalUpdateService.class);
         sellableItemRepository = Mockito.mock(SellableItemRepository.class);
-        sellableItemService = new SellableItemServiceImpl(redbayUserDetailsService, mapperService, userService, sellableItemRepository, globalUpdateService);
+        userRepository = Mockito.mock(UserRepository.class);
+        sellableItemService = new SellableItemServiceImpl(redbayUserDetailsService, mapperService, userService, sellableItemRepository, userRepository, globalUpdateService);
         this.beanFactory = beanFactory;
     }
 

@@ -34,4 +34,9 @@ public class GlobalExceptionHandler extends ExceptionHandlerExceptionResolver {
     public ResponseEntity<Object> handleInvalidBidPriceException(InvalidBidPriceException exception) {
         return new ResponseEntity<>(new ErrorDTO("error", exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = SellableItemDoesNotBelongToUserException.class)
+    public ResponseEntity<Object> handleSellableItemDoesNotBelongToUserException(SellableItemDoesNotBelongToUserException exception) {
+        return new ResponseEntity<>(new ErrorDTO("error", exception.getMessage()), HttpStatus.FORBIDDEN);
+    }
 }

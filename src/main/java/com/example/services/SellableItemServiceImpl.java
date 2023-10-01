@@ -1,5 +1,6 @@
 package com.example.services;
 
+import com.example.dtos.ErrorDTO;
 import com.example.dtos.SellableItemDTO;
 import com.example.dtos.SellableItemIDDTO;
 import com.example.dtos.SellableItemListDTO;
@@ -8,15 +9,20 @@ import com.example.entities.SellableItem;
 import com.example.entities.User;
 import com.example.exception.BidTimeExpiredException;
 import com.example.exception.InvalidBidPriceException;
+import com.example.exception.SellableItemDoesNotBelongToUserException;
 import com.example.exception.SellableItemNotFoundException;
 import com.example.repositories.SellableItemRepository;
+import com.example.repositories.UserRepository;
 import com.example.security.RedbayUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SellableItemServiceImpl implements SellableItemService {
@@ -28,14 +34,17 @@ public class SellableItemServiceImpl implements SellableItemService {
 
     private SellableItemRepository sellableItemRepository;
 
+    private UserRepository userRepository;
+
     private GlobalUpdateService globalUpdateService;
 
     @Autowired
-    public SellableItemServiceImpl(RedbayUserDetailsService redbayUserDetailsService, MapperService mapperService, UserService userService, SellableItemRepository sellableItemRepository, GlobalUpdateService globalUpdateService) {
+    public SellableItemServiceImpl(RedbayUserDetailsService redbayUserDetailsService, MapperService mapperService, UserService userService, SellableItemRepository sellableItemRepository,  UserRepository userRepository, GlobalUpdateService globalUpdateService) {
         this.redbayUserDetailsService = redbayUserDetailsService;
         this.mapperService = mapperService;
         this.userService = userService;
         this.sellableItemRepository = sellableItemRepository;
+        this.userRepository = userRepository;
         this.globalUpdateService = globalUpdateService;
     }
 
@@ -100,6 +109,29 @@ public class SellableItemServiceImpl implements SellableItemService {
         sellableItemRepository.save(sellableItem);
 
         SellableItemIDDTO sellableItemIDDTO = mapperService.convertSellableItemToSellableItemIDDTO(sellableItem);
+        return sellableItemIDDTO;
+    }
+
+    public SellableItemIDDTO removeSellableItemById(HttpServletRequest request, Long id) {
+        User user = redbayUserDetailsService.getUserByUsernameFromRequest(request);
+        SellableItem sellableItem = getValidSellableItem(id);
+        SellableItemIDDTO sellableItemIDDTO = mapperService.convertSellableItemToSellableItemIDDTO(sellableItem);
+        if (!user.getUsername().equals(sellableItem.getUser().getUsername())) {
+            throw new SellableItemDoesNotBelongToUserException();
+        }
+
+        for (int i = 0; i < sellableItem.getBids().size(); i++) {
+            sellableItem.getBids().remove(i);
+        }
+
+        for (int i = 0; i < user.getSellableItems().size(); i++) {
+            if (user.getSellableItems().get(i).getId() == id.intValue()) {
+                user.getSellableItems().remove(i);
+            }
+        }
+
+        sellableItemRepository.delete(sellableItem);
+
         return sellableItemIDDTO;
     }
 }

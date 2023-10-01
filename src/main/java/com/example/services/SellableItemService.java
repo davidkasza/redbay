@@ -14,4 +14,6 @@ public interface SellableItemService {
     SellableItemIDDTO getSellableItemById(Long id);
 
     SellableItemIDDTO setBid(HttpServletRequest request, Long id, double bidPrice);
+
+    SellableItemIDDTO removeSellableItemById(HttpServletRequest request, Long id);
 }

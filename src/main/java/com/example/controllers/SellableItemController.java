@@ -77,4 +77,13 @@ public class SellableItemController {
 
         return ResponseEntity.status(HttpStatus.OK).body(sellableItemService.setBid(request, Long.parseLong(id), bidDTO.getBidPrice()));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> removeItemById(HttpServletRequest request, @PathVariable String id) {
+        if (!GeneralUtility.isValidLongNumber(id)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO("error", "The given id is not a valid number!"));
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(sellableItemService.removeSellableItemById(request, Long.parseLong(id)));
+    }
 }
