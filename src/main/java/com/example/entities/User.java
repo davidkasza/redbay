@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,11 +24,19 @@ public class User {
     @JsonIgnore
     private String password;
 
+    private LocalDateTime createdAt;
+
+    private boolean verified;
+
+    private String verificationToken;
+
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, mappedBy = "user", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<SellableItem> sellableItems;
 
     public User() {
+        this.createdAt = LocalDateTime.now();
+        this.verified = false;
     }
 
     public User(String username, String name, String email, String password) {
@@ -34,6 +44,8 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.createdAt = LocalDateTime.now();
+        this.verified = false;
     }
 
     public Long getId() {
@@ -76,6 +88,14 @@ public class User {
         this.password = password;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public void addSellableItem(SellableItem sellableItem) {
         sellableItems.add(sellableItem);
     }
@@ -86,5 +106,17 @@ public class User {
 
     public void setSellableItems(List<SellableItem> sellableItems) {
         this.sellableItems = sellableItems;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }

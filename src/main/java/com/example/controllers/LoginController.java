@@ -44,6 +44,7 @@ public class LoginController {
         }
 
         loginService.authenticate(authenticationRequest);
+        loginService.checkEmailVerification(authenticationRequest.getUsername());
         return ResponseEntity.status(HttpStatus.OK).body(new AuthenticationResponse("ok", loginService.createAuthenticationToken(authenticationRequest)));
     }
 }

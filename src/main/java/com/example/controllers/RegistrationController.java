@@ -1,21 +1,28 @@
 package com.example.controllers;
 
 import com.example.dtos.ErrorDTO;
+import com.example.dtos.RegisteredUserDTO;
 import com.example.dtos.UserDTO;
 import com.example.services.GeneralUtility;
 import com.example.services.UserService;
+import com.example.verification.EmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
+
 @RestController
 public class RegistrationController {
     private UserService userService;
 
-    public RegistrationController(UserService userService) {
+    private EmailService emailService;
+
+    public RegistrationController(UserService userService, EmailService emailService) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/signup")
@@ -42,6 +49,14 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(new ErrorDTO("error", "The user already exists!"));
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.addNewUser(userDTO));
+        RegisteredUserDTO registeredUserDTO = userService.addNewUser(userDTO);
+
+        try {
+            emailService.sendEmail(userDTO);
+        } catch (MessagingException exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO("error", "Something went wrong."));
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUserDTO);
     }
 }

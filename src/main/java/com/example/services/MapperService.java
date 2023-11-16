@@ -18,4 +18,6 @@ public interface MapperService {
     SellableItemIDDTO convertSellableItemToSellableItemIDDTO(SellableItem sellableItem);
 
     BidderBuyerUserDTO convertUserToBidderBuyerUserDTO(User user);
+
+    UserDetailsDTO convertUserToUserDetailsDTO(User user);
 }

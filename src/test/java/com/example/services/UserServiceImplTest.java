@@ -37,7 +37,7 @@ public class UserServiceImplTest {
         bCryptPasswordEncoder = Mockito.mock(BCryptPasswordEncoder.class);
         mapperService = Mockito.mock(MapperService.class);
         redbayUserDetailsService = Mockito.mock(RedbayUserDetailsService.class);
-        userServiceImpl = new UserServiceImpl(userRepository, bCryptPasswordEncoder, mapperService);
+        userServiceImpl = new UserServiceImpl(userRepository, bCryptPasswordEncoder, mapperService, redbayUserDetailsService);
         this.beanFactory = beanFactory;
     }
 

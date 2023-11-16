@@ -39,4 +39,14 @@ public class GlobalExceptionHandler extends ExceptionHandlerExceptionResolver {
     public ResponseEntity<Object> handleSellableItemDoesNotBelongToUserException(SellableItemDoesNotBelongToUserException exception) {
         return new ResponseEntity<>(new ErrorDTO("error", exception.getMessage()), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(value = UserAlreadyVerifiedException.class)
+    public ResponseEntity<Object> handleUserAlreadyVerifiedException(UserAlreadyVerifiedException exception) {
+        return new ResponseEntity<>(new ErrorDTO("error", exception.getMessage()), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(value = EmailNotVerifiedException.class)
+    public ResponseEntity<Object> handleEmailNotVerifiedException(EmailNotVerifiedException exception) {
+        return new ResponseEntity<>(new ErrorDTO("error", exception.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
 }

@@ -66,4 +66,8 @@ public class MapperServiceImpl implements MapperService {
     public BidderBuyerUserDTO convertUserToBidderBuyerUserDTO(User user) {
         return modelMapper.map(user, BidderBuyerUserDTO.class);
     }
+
+    public UserDetailsDTO convertUserToUserDetailsDTO(User user) {
+        return modelMapper.map(user, UserDetailsDTO.class);
+    }
 }

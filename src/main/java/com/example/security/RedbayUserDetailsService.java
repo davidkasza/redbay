@@ -53,4 +53,9 @@ public class RedbayUserDetailsService implements UserDetailsService {
         Optional<User> user = userRepository.findUserByUsername(jwtUtil.extractUsernameFromRequest(request));
         return user.orElseThrow(() -> new UserNotFoundException(user.get().getUsername()));
     }
+
+    public User getUserByEmailVerificationToken(String token) {
+        Optional<User> optionalUser = userRepository.findUserByVerificationToken(token);
+        return optionalUser.get();
+    }
 }

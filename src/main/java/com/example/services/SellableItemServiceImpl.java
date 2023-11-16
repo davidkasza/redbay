@@ -1,6 +1,5 @@
 package com.example.services;
 
-import com.example.dtos.ErrorDTO;
 import com.example.dtos.SellableItemDTO;
 import com.example.dtos.SellableItemIDDTO;
 import com.example.dtos.SellableItemListDTO;
@@ -15,14 +14,11 @@ import com.example.repositories.SellableItemRepository;
 import com.example.repositories.UserRepository;
 import com.example.security.RedbayUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SellableItemServiceImpl implements SellableItemService {

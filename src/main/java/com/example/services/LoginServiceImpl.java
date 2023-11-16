@@ -1,5 +1,6 @@
 package com.example.services;
 
+import com.example.exception.EmailNotVerifiedException;
 import com.example.exception.UserNotFoundException;
 import com.example.security.AuthenticationRequest;
 import com.example.security.JwtUtil;
@@ -43,6 +44,13 @@ public class LoginServiceImpl implements LoginService {
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException badCredentialsException) {
             throw new UserNotFoundException();
+        }
+    }
+
+    @Override
+    public void checkEmailVerification(String username) {
+        if (!userService.findUserByUsername(username).get().getVerified()) {
+            throw new EmailNotVerifiedException();
         }
     }
 }
